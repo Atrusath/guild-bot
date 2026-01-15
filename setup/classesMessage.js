@@ -7,7 +7,8 @@ const {
 const fs = require("fs");
 
 module.exports = async (guild, config) => {
-  const data = require("../data/messages.json");
+  const dataPath = path.join(__dirname, "../data/messages.json");
+  const data = JSON.parse(fs.readFileSync(dataPath, "utf8"));
   if (data.classesMessageIds?.length) return;
 
   const channel = guild.channels.cache.get(config.channels.classes);
@@ -55,7 +56,7 @@ module.exports = async (guild, config) => {
     data.classesMessageIds.push(msg.id);
   }
 
-  fs.writeFileSync("./data/messages.json", JSON.stringify(data, null, 2));
+  fs.writeFileSync(dataPath, JSON.stringify(data, null, 2));
 
   console.log("✅ Messages classes envoyés");
 };
