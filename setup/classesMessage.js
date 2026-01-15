@@ -5,17 +5,22 @@ const {
   ButtonStyle
 } = require("discord.js");
 const fs = require("fs");
+const path = require("path");
 
 module.exports = async (guild, config) => {
   const dataPath = path.join(__dirname, "../data/messages.json");
-if (data.classesMessageIds?.length) return;
-// 🛡️ Création auto si absent
+
+  // 🛡️ Création auto si absent
   if (!fs.existsSync(dataPath)) {
     fs.mkdirSync(path.dirname(dataPath), { recursive: true });
     fs.writeFileSync(dataPath, JSON.stringify({}, null, 2));
   }
+
   const data = JSON.parse(fs.readFileSync(dataPath, "utf8"));
-  
+
+  // ⛔ Ne pas recréer
+  if (data.classesMessageIds?.length) return;
+
   const channel = guild.channels.cache.get(config.channels.classes);
   if (!channel) return console.error("❌ Channel classes introuvable");
 
@@ -47,7 +52,6 @@ if (data.classesMessageIds?.length) return;
     rows.push(currentRow);
   }
 
-  // 🔹 Envoi en plusieurs messages (5 rows max par message)
   data.classesMessageIds = [];
 
   for (let i = 0; i < rows.length; i += 5) {
@@ -62,7 +66,6 @@ if (data.classesMessageIds?.length) return;
   }
 
   fs.writeFileSync(dataPath, JSON.stringify(data, null, 2));
-
   console.log("✅ Messages classes envoyés");
 };
 
