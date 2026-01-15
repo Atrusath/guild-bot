@@ -8,9 +8,14 @@ const fs = require("fs");
 
 module.exports = async (guild, config) => {
   const dataPath = path.join(__dirname, "../data/messages.json");
+if (data.classesMessageIds?.length) return;
+// 🛡️ Création auto si absent
+  if (!fs.existsSync(dataPath)) {
+    fs.mkdirSync(path.dirname(dataPath), { recursive: true });
+    fs.writeFileSync(dataPath, JSON.stringify({}, null, 2));
+  }
   const data = JSON.parse(fs.readFileSync(dataPath, "utf8"));
-  if (data.classesMessageIds?.length) return;
-
+  
   const channel = guild.channels.cache.get(config.channels.classes);
   if (!channel) return console.error("❌ Channel classes introuvable");
 

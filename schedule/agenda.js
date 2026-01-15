@@ -34,6 +34,10 @@ module.exports = (client, config) => {
         console.log("📅 Génération planning raids...");
 
         const dataPath = path.join(__dirname, "../data/agenda.json");
+        if (!fs.existsSync(dataPath)) {
+            fs.mkdirSync(path.dirname(dataPath), { recursive: true });
+            fs.writeFileSync(dataPath, JSON.stringify({}, null, 2));
+        }
         const data = JSON.parse(fs.readFileSync(dataPath, "utf8"));
 
         const guild = await client.guilds.fetch(config.guildId);

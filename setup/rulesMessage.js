@@ -9,6 +9,11 @@ const path = require("path");
 
 module.exports = async (guild, config) => {
   const dataPath = path.join(__dirname, "../data/messages.json");
+  // 🛡️ Création auto si absent (Fly fix)
+  if (!fs.existsSync(dataPath)) {
+    fs.mkdirSync(path.dirname(dataPath), { recursive: true });
+    fs.writeFileSync(dataPath, JSON.stringify({}, null, 2));
+  }
   const data = JSON.parse(fs.readFileSync(dataPath, "utf8"));
 
   // ⛔ Ne pas recréer le message s'il existe déjà
