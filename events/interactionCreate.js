@@ -2,7 +2,11 @@ module.exports = (client, config) => {
   client.on("interactionCreate", async interaction => {
     if (!interaction.isButton()) return;
 
-    const member = interaction.member;
+    //const member = interaction.member;
+    const guild = interaction.guild;
+    if (!guild) return;
+
+    const member = await guild.members.fetch(interaction.user.id);
 
     // ✅ Bouton acceptation des règles
     if (interaction.customId === "accept_rules") {
