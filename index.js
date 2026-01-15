@@ -1,4 +1,5 @@
 const { Client, GatewayIntentBits } = require("discord.js");
+console.log("Debut lancement bot");
 const config = {
   token: process.env.DISCORD_TOKEN,
   guildId: process.env.GUILD_ID,
